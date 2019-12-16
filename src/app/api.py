@@ -1,5 +1,7 @@
 """API que expone los métodos del servicio para monitoreo."""
-from flask import Flask, jsonify, redirect, url_for
+from flask import Flask, jsonify, redirect, url_for, request
+
+from monitoring.monitor import predict_CTF
 
 
 def instance_api():
@@ -19,8 +21,17 @@ def instance_api():
 
     @api.route("/predict", methods=["GET"])
     def predict():
-        # TODO: Add an endpoint to return the model's prediction.
-        return jsonify(message="La prediccion podria ir en este endpoint!")
+        output = predict_CTF()
+        return jsonify(output)
+
+    # @api.errorhandler(Exception)
+    # def handle_exceptions(error):
+    #     print(error)
+    #     return jsonify({"success": False})
+
+    # @api.route("/monitor", methods=["POST"])
+    # def monitor():
+    #     return jsonify(message="hi")
 
     return api
 
