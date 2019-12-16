@@ -1,0 +1,7 @@
+venv/
+tests/
+*/docker-compose.yaml
+.vscode/
+.gitignore
+.git/
+

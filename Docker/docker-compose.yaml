@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  api:
+    restart: on-failure
+    image: python:3.8
+    working_dir: /var/sources/
+    volumes:
+      - ../.:/var/sources
+    environment:
+      - ENV=DEV
+    ports:
+      - 8080:8080
+    command: bash -c "pip install -r requirements.txt && pip install . && gunicorn --config gunicorn.conf.py 'app.api:instance_api()'"
