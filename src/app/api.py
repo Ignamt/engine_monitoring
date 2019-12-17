@@ -28,7 +28,7 @@ def instance_api():
 
     @api.route("/data/upload", methods=["POST"])
     def upload_data():
-        if "files" in request and request.files:
+        if request.files:
             version = 1
             data_file_path = os.path.join([os.environ.get("DATA_PATH", "./src/monitoring/data"), "data_to_predict"])
             while os.path.exists(f"{data_file_path}_{version}.csv"):
@@ -40,7 +40,7 @@ def instance_api():
             if os.path.exists(curr_data_file):
                 subprocess.run(["mv", curr_data_file, versioned_data_path])
 
-            file: FileStorage = request["files"]["csv"]
+            file = request["files"].get("csv")
             file.save(curr_data_file)
             return jsonify(message="Data saved successfully.", success=True)
 
