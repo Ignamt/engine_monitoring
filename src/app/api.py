@@ -1,5 +1,9 @@
 """API que expone los métodos del servicio para monitoreo."""
+import os
+import subprocess
+
 from flask import Flask, jsonify, redirect, url_for, request
+from Werkzeug import FileStorage
 
 from monitoring.monitor import predict_CTF
 
@@ -24,6 +28,26 @@ def instance_api():
         output = predict_CTF()
         return jsonify(output)
 
+    @api.route("/data/upload", methods=["POST"])
+    def upload_data():
+        if request.get("files"):
+            version = 1
+            data_file_path = os.path.join([os.environ.get("DATA_PATH", "./src/monitoring/data"), "data_to_predict"])
+            while os.path.exists(f"{data_file_path}_{version}.csv"):
+                version += 1
+
+            curr_data_file = data_file_path + ".csv"
+            versioned_data_path = f"{data_file_path}_{version}.csv"
+
+            if os.path.exists(curr_data_file):
+                subprocess.run(["mv", curr_data_file, versioned_data_path])
+
+            file: FileStorage = request["files"]["csv"]
+            file.save(curr_data_file)
+            return jsonify(message="Data saved successfully.", success=True)
+
+        else:
+            return jsonify({"message": "No data file was received.", "success": False})
     # @api.errorhandler(Exception)
     # def handle_exceptions(error):
     #     print(error)
