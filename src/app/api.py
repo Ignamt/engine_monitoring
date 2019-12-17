@@ -31,7 +31,7 @@ def instance_api():
         if request.files:
             version = 1
             data_file_path = os.path.join([os.environ.get("DATA_PATH", "./src/monitoring/data"), "data_to_predict"])
-            while os.path.exists(f"{data_file_path}_{version}.csv"):
+            while os.sep.exists(f"{data_file_path}_{version}.csv"):
                 version += 1
 
             curr_data_file = data_file_path + ".csv"
