@@ -40,7 +40,7 @@ def instance_api():
             if os.path.exists(curr_data_file):
                 subprocess.run(["mv", curr_data_file, versioned_data_path])
 
-            file = request["files"].get("csv")
+            file = request.files.get("csv")
             file.save(curr_data_file)
             return jsonify(message="Data saved successfully.", success=True)
 
