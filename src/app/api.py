@@ -3,8 +3,6 @@ import os
 import subprocess
 
 from flask import Flask, jsonify, redirect, url_for, request
-from Werkzeug import FileStorage
-
 from monitoring.monitor import predict_CTF
 
 
