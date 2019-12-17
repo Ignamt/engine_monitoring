@@ -28,7 +28,7 @@ def instance_api():
 
     @api.route("/data/upload", methods=["POST"])
     def upload_data():
-        if request.get("files"):
+        if "files" in request and request.files:
             version = 1
             data_file_path = os.path.join([os.environ.get("DATA_PATH", "./src/monitoring/data"), "data_to_predict"])
             while os.path.exists(f"{data_file_path}_{version}.csv"):
